@@ -25,6 +25,12 @@ const ProtectedRoute = ({ children, allowedRole }) => {
 };
 
 function App() {
+  const initFirebaseListeners = useStore(state => state.initFirebaseListeners);
+
+  React.useEffect(() => {
+    initFirebaseListeners();
+  }, [initFirebaseListeners]);
+
   return (
     <Router>
       <div className="app-container">
