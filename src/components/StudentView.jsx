@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useStore, calculateFine } from '../store';
-import { LogOut, Library, User, BookOpen, Clock, CheckCircle, Sparkles, Search, RotateCcw, AlertTriangle, Award, Star } from 'lucide-react';
+import { LogOut, Library, User, BookOpen, Clock, CheckCircle, Sparkles, Search, RotateCcw, AlertTriangle, Award, Star, Menu } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ export default function StudentView() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('browse');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -68,8 +69,11 @@ export default function StudentView() {
 
   return (
     <div className="dashboard-layout student-dashboard">
+      {/* Mobile Overlay */}
+      <div className={`sidebar-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
+      
       {/* Sidebar */}
-      <div className="sidebar" style={{ background: 'var(--bg-surface)' }}>
+      <div className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`} style={{ background: 'var(--bg-surface)' }}>
         <div className="sidebar-header" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <Library color="var(--accent-primary)" size={28} style={{ marginRight: '1rem' }}/>
           <h2 style={{ fontSize: '1.4rem', margin: 0, fontWeight: 700, letterSpacing: '-0.03em' }}>
@@ -78,13 +82,13 @@ export default function StudentView() {
         </div>
         
         <nav className="sidebar-nav">
-          <button className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
+          <button className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => { setActiveTab('profile'); setIsMobileMenuOpen(false); }}>
             <User size={20} /> My Profile
           </button>
-          <button className={`nav-item ${activeTab === 'browse' ? 'active' : ''}`} onClick={() => setActiveTab('browse')}>
+          <button className={`nav-item ${activeTab === 'browse' ? 'active' : ''}`} onClick={() => { setActiveTab('browse'); setIsMobileMenuOpen(false); }}>
             <Library size={20} /> Browse Books
           </button>
-          <button className={`nav-item ${activeTab === 'my-issues' ? 'active' : ''}`} onClick={() => setActiveTab('my-issues')}>
+          <button className={`nav-item ${activeTab === 'my-issues' ? 'active' : ''}`} onClick={() => { setActiveTab('my-issues'); setIsMobileMenuOpen(false); }}>
             <BookOpen size={20} /> My Issues
           </button>
         </nav>
@@ -108,16 +112,21 @@ export default function StudentView() {
       {/* Main Content */}
       <div className="main-content" style={{ backgroundColor: 'var(--bg-dark)' }}>
         <div className="top-header" style={{ padding: '2rem 3rem 1rem', border: 'none', background: 'transparent', height: 'auto', position: 'relative' }}>
-          <div>
-            <h1 style={{ fontSize: '2.5rem', margin: 0, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              {activeTab === 'profile' ? 'My Profile' : activeTab === 'browse' ? 'Available Books' : 'My Issued Books'}
-              {activeTab === 'browse' && <Sparkles color="var(--accent-primary)" size={28} />}
-            </h1>
-            <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem', fontSize: '1.1rem' }}>
-              {activeTab === 'profile' ? 'Manage your account and view achievements.' : activeTab === 'browse' 
-                ? 'Explore our collection and issue books instantly.' 
-                : 'Track your currently issued books and history.'}
-            </p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+            <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+              <Menu size={24} color="var(--text-main)" />
+            </button>
+            <div>
+              <h1 style={{ fontSize: '2.5rem', margin: 0, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                {activeTab === 'profile' ? 'My Profile' : activeTab === 'browse' ? 'Available Books' : 'My Issued Books'}
+                {activeTab === 'browse' && <Sparkles color="var(--accent-primary)" size={28} />}
+              </h1>
+              <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem', fontSize: '1.1rem' }}>
+                {activeTab === 'profile' ? 'Manage your account and view achievements.' : activeTab === 'browse' 
+                  ? 'Explore our collection and issue books instantly.' 
+                  : 'Track your currently issued books and history.'}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -232,7 +241,7 @@ export default function StudentView() {
                 </div>
               )}
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
                 <h2 style={{ margin: 0, fontSize: '1.5rem' }}>All Books</h2>
                 <div className="search-container">
                   <Search className="search-icon" size={20} />

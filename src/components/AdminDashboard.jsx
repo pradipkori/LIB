@@ -265,7 +265,7 @@ export default function AdminDashboard() {
                   <h3 style={{ margin: 0, fontSize: '1.3rem' }}>Register New Student</h3>
                 </div>
                 {/* Wrapped in a proper form for better UX and reliability */}
-                <form onSubmit={handleAddStudent} style={{ display: 'flex', gap: '1.5rem' }}>
+                <form onSubmit={handleAddStudent} className="form-flex">
                   <input 
                     type="text" 
                     className="input-field" 
@@ -355,7 +355,7 @@ export default function AdminDashboard() {
                   <h3 style={{ margin: 0, fontSize: '1.3rem' }}>Add New Book to Library</h3>
                 </div>
                 {/* Wrapped in a proper form */}
-                <form onSubmit={handleAddBook} style={{ display: 'flex', gap: '1.5rem' }}>
+                <form onSubmit={handleAddBook} className="form-flex">
                   <input 
                     type="text" 
                     className="input-field" 
