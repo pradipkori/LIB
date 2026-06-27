@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useStore, calculateFine } from '../store';
-import { Users, Book, Clock, LogOut, Plus, Trash2, LibraryBig, TrendingUp, UserPlus, BookPlus, Search, Copy, Edit2, Save, X } from 'lucide-react';
+import { Users, Book, Clock, LogOut, Plus, Trash2, LibraryBig, TrendingUp, UserPlus, BookPlus, Search, Copy, Edit2, Save, X, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from 'recharts';
 
@@ -8,6 +8,7 @@ export default function AdminDashboard() {
   const { users, books, issues, addUser, removeUser, updateUser, addBook, removeBook, updateBook, logout, currentUser, addToast } = useStore(state => state);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Forms state
   const [newStudentName, setNewStudentName] = useState('');
@@ -120,27 +121,30 @@ export default function AdminDashboard() {
 
   return (
     <div className="dashboard-layout">
+      {/* Mobile Overlay */}
+      <div className={`sidebar-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
+      
       {/* Sidebar */}
-      <div className="sidebar">
+      <div className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <LibraryBig color="var(--accent-primary)" size={28} style={{ marginRight: '1rem' }}/>
           <h2 style={{ fontSize: '1.4rem', margin: 0, fontWeight: 700, letterSpacing: '-0.03em' }}>Library<span style={{ color: 'var(--accent-primary)' }}>OS</span></h2>
         </div>
         
-        <div className="sidebar-nav">
-          <div className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>
-            <TrendingUp size={20} /> <span style={{ fontSize: '1rem' }}>Overview</span>
-          </div>
-          <div className={`nav-item ${activeTab === 'students' ? 'active' : ''}`} onClick={() => setActiveTab('students')}>
-            <Users size={20} /> <span style={{ fontSize: '1rem' }}>Students</span>
-          </div>
-          <div className={`nav-item ${activeTab === 'books' ? 'active' : ''}`} onClick={() => setActiveTab('books')}>
-            <Book size={20} /> <span style={{ fontSize: '1rem' }}>Books</span>
-          </div>
-          <div className={`nav-item ${activeTab === 'issues' ? 'active' : ''}`} onClick={() => setActiveTab('issues')}>
-            <Clock size={20} /> <span style={{ fontSize: '1rem' }}>Issues</span>
-          </div>
-        </div>
+        <nav className="sidebar-nav">
+          <button className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => { setActiveTab('overview'); setIsMobileMenuOpen(false); }}>
+            <TrendingUp size={20} /> Overview
+          </button>
+          <button className={`nav-item ${activeTab === 'students' ? 'active' : ''}`} onClick={() => { setActiveTab('students'); setIsMobileMenuOpen(false); }}>
+            <Users size={20} /> Students
+          </button>
+          <button className={`nav-item ${activeTab === 'books' ? 'active' : ''}`} onClick={() => { setActiveTab('books'); setIsMobileMenuOpen(false); }}>
+            <Book size={20} /> Books
+          </button>
+          <button className={`nav-item ${activeTab === 'issues' ? 'active' : ''}`} onClick={() => { setActiveTab('issues'); setIsMobileMenuOpen(false); }}>
+            <Clock size={20} /> Issues & Fines
+          </button>
+        </nav>
 
         <div style={{ padding: '2rem 1.5rem', borderTop: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
@@ -160,10 +164,18 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <div className="main-content">
-        <div className="top-header" style={{ borderBottom: 'none', padding: '2rem 3rem 1rem' }}>
-          <h1 style={{ fontSize: '2.5rem', margin: 0, color: 'var(--text-main)' }}>
-            {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-          </h1>
+        <div className="top-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+              <Menu size={24} />
+            </button>
+            <h1 style={{ fontSize: '1.5rem', margin: 0, fontWeight: 600 }}>
+              {activeTab === 'overview' && 'Dashboard Overview'}
+              {activeTab === 'students' && 'Manage Students'}
+              {activeTab === 'books' && 'Library Catalog'}
+              {activeTab === 'issues' && 'Active Issues & Fines'}
+            </h1>
+          </div>
         </div>
 
         <div className="content-body" style={{ padding: '1rem 3rem 3rem' }}>

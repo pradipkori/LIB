@@ -643,6 +643,18 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-main);
 }
 
+.toast-success {
+  border-left-color: var(--success);
+}
+
+.toast-error {
+  border-left-color: var(--danger);
+}
+
+.toast-info {
+  border-left-color: var(--accent-primary);
+}
+
 .toast-success .toast-icon { color: var(--success); }
 .toast-error .toast-icon { color: var(--danger); }
 .toast-info .toast-icon { color: var(--accent-primary); }
@@ -718,4 +730,119 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.6);
   border-color: var(--border-focus);
+}
+
+/* Mobile Responsive Design */
+.mobile-menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  .sidebar {
+    position: absolute;
+    left: -260px;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+  }
+
+  .sidebar.open {
+    transform: translateX(260px);
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 90;
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    padding: 0.5rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .top-header {
+    padding: 1rem !important;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .top-header h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  .top-header p {
+    font-size: 0.9rem !important;
+    margin-top: 0.2rem !important;
+  }
+
+  .content-body {
+    padding: 1rem !important;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Make tables scrollable horizontally */
+  .table-container {
+    overflow-x: auto;
+    max-width: 100vw;
+  }
+  
+  .data-table th, .data-table td {
+    white-space: nowrap;
+    padding: 0.75rem 1rem;
+  }
+  
+  .book-card {
+    min-width: 100%;
+  }
+
+  /* Digital Library Card resizing */
+  .stagger-1[style*="400px"] {
+    width: 100% !important;
+    padding: 1.5rem !important;
+  }
+  
+  .stagger-1[style*="400px"] h2 {
+    font-size: 1.4rem !important;
+  }
+
+  /* login page */
+  .login-box {
+    padding: 1.5rem !important;
+    width: 90% !important;
+  }
+  .login-title {
+    font-size: 2rem !important;
+  }
 }
