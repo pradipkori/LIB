@@ -12,7 +12,7 @@ const initialBooks = [
 
 const initialUsers = [
   { id: 'admin1', name: 'Admin User', role: 'admin' },
-  { id: 'student1', name: 'John Doe', role: 'student' },
+  { id: 'student1', name: 'User', role: 'student' },
 ];
 
 export const useStore = create(
@@ -64,7 +64,7 @@ export const useStore = create(
       }),
 
       returnBook: (issueId) => set((state) => ({
-        issues: state.issues.map(i => 
+        issues: state.issues.map(i =>
           i.id === issueId ? { ...i, status: 'returned' } : i
         )
       })),

@@ -1,25 +1,25 @@
 :root {
-  /* Premium Dark Theme Palette */
-  --bg-dark: #09090b;       /* Deepest space background */
-  --bg-surface: #18181b;    /* Slightly lighter for cards */
-  --bg-surface-hover: #27272a;
+  /* Premium Dark Theme Palette - Royal Purple & Teal */
+  --bg-dark: #0f0a1c;       /* Deep space purple background */
+  --bg-surface: #17112b;    /* Slightly lighter for cards */
+  --bg-surface-hover: #221a3f;
   
-  --border-color: #27272a;
-  --border-focus: #3f3f46;
+  --border-color: #2d244a;
+  --border-focus: #4b3d7a;
   
-  --text-main: #f4f4f5;
-  --text-muted: #a1a1aa;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
   
-  --accent-primary: #3b82f6; /* Vibrant Blue */
-  --accent-hover: #2563eb;
-  --accent-glow: rgba(59, 130, 246, 0.2);
+  --accent-primary: #8b5cf6; /* Royal Purple */
+  --accent-hover: #7c3aed;
+  --accent-glow: rgba(139, 92, 246, 0.25);
   
-  --danger: #ef4444;
-  --danger-hover: #dc2626;
-  --success: #10b981;
-  --success-bg: rgba(16, 185, 129, 0.1);
+  --danger: #f43f5e;
+  --danger-hover: #e11d48;
+  --success: #14b8a6;       /* Teal */
+  --success-bg: rgba(20, 184, 166, 0.15);
   --warning: #f59e0b;
-  --warning-bg: rgba(245, 158, 11, 0.1);
+  --warning-bg: rgba(245, 158, 11, 0.15);
 }
 
 * {
