@@ -3,11 +3,11 @@ import { persist } from 'zustand/middleware';
 
 // Initial Mock Data
 const initialBooks = [
-  { id: '1', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', color: '#3b82f6' },
-  { id: '2', title: '1984', author: 'George Orwell', color: '#10b981' },
-  { id: '3', title: 'Dune', author: 'Frank Herbert', color: '#8b5cf6' },
-  { id: '4', title: 'Neuromancer', author: 'William Gibson', color: '#0ea5e9' },
-  { id: '5', title: 'Foundation', author: 'Isaac Asimov', color: '#ec4899' },
+  { id: '1', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', category: 'Fiction', color: '#3b82f6' },
+  { id: '2', title: '1984', author: 'George Orwell', category: 'Sci-Fi', color: '#10b981' },
+  { id: '3', title: 'Dune', author: 'Frank Herbert', category: 'Sci-Fi', color: '#8b5cf6' },
+  { id: '4', title: 'Neuromancer', author: 'William Gibson', category: 'Tech', color: '#0ea5e9' },
+  { id: '5', title: 'Foundation', author: 'Isaac Asimov', category: 'Sci-Fi', color: '#ec4899' },
 ];
 
 const initialUsers = [
@@ -22,6 +22,15 @@ export const useStore = create(
       users: initialUsers,
       books: initialBooks,
       issues: [],
+      toasts: [],
+
+      // Toast Actions
+      addToast: (message, type = 'info') => set((state) => ({
+        toasts: [...state.toasts, { id: `toast_${Date.now()}`, message, type }]
+      })),
+      removeToast: (toastId) => set((state) => ({
+        toasts: state.toasts.filter(t => t.id !== toastId)
+      })),
 
       // Auth Actions
       login: (userId) => set((state) => {
@@ -39,8 +48,8 @@ export const useStore = create(
       })),
 
       // Book Actions (Admin)
-      addBook: (title, author, color) => set((state) => ({
-        books: [...state.books, { id: `book_${Date.now()}`, title, author, color: color || '#ccc' }]
+      addBook: (title, author, category, color) => set((state) => ({
+        books: [...state.books, { id: `book_${Date.now()}`, title, author, category: category || 'Uncategorized', color: color || '#ccc' }]
       })),
       removeBook: (bookId) => set((state) => ({
         books: state.books.filter(b => b.id !== bookId)
@@ -52,6 +61,12 @@ export const useStore = create(
           i => i.bookId === bookId && i.status === 'issued'
         );
         if (isAlreadyIssued) return state;
+
+        const activeIssues = state.issues.filter(i => i.studentId === studentId && i.status === 'issued');
+        if (activeIssues.length >= 3) {
+          // Reject issue if limit is reached. The UI will also check this to show toast.
+          return state;
+        }
 
         const newIssue = {
           id: `issue_${Date.now()}`,

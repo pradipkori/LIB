@@ -6,6 +6,7 @@ import { useStore } from './store';
 import Login from './components/Login';
 import AdminDashboard from './components/AdminDashboard';
 import StudentView from './components/StudentView';
+import Toast from './components/Toast';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRole }) => {
@@ -26,30 +27,33 @@ const ProtectedRoute = ({ children, allowedRole }) => {
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        
-        <Route 
-          path="/admin" 
-          element={
-            <ProtectedRoute allowedRole="admin">
-              <AdminDashboard />
-            </ProtectedRoute>
-          } 
-        />
-        
-        <Route 
-          path="/library" 
-          element={
-            <ProtectedRoute allowedRole="student">
-              <StudentView />
-            </ProtectedRoute>
-          } 
-        />
-        
-        {/* Fallback route */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <div className="app-container">
+        <Toast />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute allowedRole="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/library" 
+            element={
+              <ProtectedRoute allowedRole="student">
+                <StudentView />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Fallback route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
